@@ -8,9 +8,10 @@ PostgreSQL | post-GRES-que-ell | https://www.postgresql.org/about/press/faq/ |
 PostGIS | post jis | http://mapbrief.com/2015/10/22/postgis-is-so-successful-that-it-needs-to-change-its-name/ |
 
 Let's agree that here in NYC we don't have time for lackadaisical 4-syllable 
-behemoths and that we will accept "post gress" for PostgreSQL. 
+behemoths and that we are also good with the abbreviated spelling "Postgres" 
+pronounced "post gress". 
 
-As for PostGIS, Canadians...
+As for PostGIS, blame the Canadians...
 
 ![drake](images/pronunciation.png)
 
@@ -109,8 +110,8 @@ we got access to during the Pivotal proof of concept. Screenshot from Dbeaver.
 ![wild](images/wildandcrazsydbs.png)
 
 Moving Oracle stuff over without much private sector thinking seems to transform
-Oracle schemas into become PostgreSQL databases with one default public schema 
-in each database.
+Oracle schemas into PostgreSQL databases with one default public schema in 
+each database.
 
 How would you, yes you, organize this?
 
@@ -131,7 +132,7 @@ Comes with the PostGIS bundle install.  It's a good place to start.
 Works great if you're into this sort of thing, or must convert directly 
 to/from formats that aren't shapefiles.
 
-For example, load a geojson file to a new table names *zone_geo_test*.
+For example, load a geojson file to a new table named *zone_geo_test*.
 
 ```
 $ ogr2ogr -f "PostgreSQL" PG:"dbname='gisdatabase' host='localhost' port='5432' user='gisuser' password='y'" "C:\Temp\zone_sdo_dmp.geojson" -nln zone_geo_test
@@ -173,7 +174,7 @@ INSERT INTO "tax_block_polygon" ("boro","block","eop_overlap_flag","jagged_st_fl
 # PL/pgSQL compared to PL/SQL
 
 TBD.  Looks pretty familiar.  $$ are "dollar quotes" to avoid escaping single quotes
-withing the text.  We must specify the language because PostgreSQL also supports
+within the text.  We must specify the language because PostgreSQL also supports
 pl/perl, pl/python, and some others not part of the core distribution.
 
 ```
