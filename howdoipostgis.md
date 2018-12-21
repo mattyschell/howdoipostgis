@@ -102,8 +102,9 @@ public|dtm|condo_units
 We create databases on hosts.  Databases are the top-level container for database
 objects.  
 
-We also create uers on hosts.  With appropriate grants a user may access multiple 
-databases on the same host, but may only one database per client connection.
+We also create users on hosts.  With appropriate grants a user may access multiple 
+databases on the same host. But a client connection may only access one database
+for that connection.
 
 We create schemas on databases as logical structures.  Schemas aren't necessarily 
 assigned to users. By default there's a public schema on each database.
@@ -113,14 +114,12 @@ we got access to during the Pivotal proof of concept. Screenshot from Dbeaver.
 
 ![wild](images/wildandcrazsydbs.png)
 
-Moving Oracle stuff over without much private sector thinking seems to transform
-Oracle schemas into PostgreSQL databases with one default public schema in 
-each database.
+Moving Oracle stuff over without much private sector thinking seems to pop out
+one PostgreSQL database with one default public schema for each Oracle schema.  
 
 How would you, yes you, organize this?  
 
-
-
+![gritty](images/gritty.png)
 
 # EZ loading spatial data using PostGIS shapefile loader, shp2pgsql, and ogr2ogr
 
