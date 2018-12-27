@@ -18,7 +18,7 @@ As for PostGIS, blame the Canadians...
 
 ![drake](images/pronunciation.png)
 
-
+<br/>
 
 # psql: Pretty good, if you're in to that sort of thing
 
@@ -94,23 +94,25 @@ public|dtm|condo_units
 -- More  --
 ```
 
+<br/>
 
+# Servers - Roles and Databases. Databases - Schemas. Life - Infinite possibilities
 
+We create databases on a server. A collection of databases managed by a single 
+PostgreSQL server instance is a database cluster. A database is the top-level 
+container for database objects.
 
-# Hosts, databases, schemas, roles and infinite possibilities
+We also create users (or groups of users, aka roles) on a server.  With 
+appropriate grants a user may access multiple databases on the same server. But 
+a client connection may only access one database for a given connection.
 
-We create databases on hosts.  Databases are the top-level container for database
-objects.  
-
-We also create users on hosts.  With appropriate grants a user may access multiple 
-databases on the same host. But a client connection may only access one database
-for that connection.
-
-We create schemas on databases as logical structures.  Schemas aren't necessarily 
+We create schemas on a database as logical structures.  Schemas aren't necessarily 
 assigned to users. By default there's a public schema on each database.
 
 Here's a wild and crazy mix of users, databases, and grants on the Aurora host 
-we got access to during the Pivotal proof of concept. Screenshot from Dbeaver.
+we had access to during the Pivotal proof of concept. Notice that all privileges 
+for the *basemapread* user have been revoked except for access to the *basemap* 
+database.
 
 ![wild](images/wildandcrazsydbs.png)
 
@@ -120,6 +122,8 @@ one PostgreSQL database with one default public schema for each Oracle schema.
 How would you, yes you, organize this?  
 
 ![gritty](images/gritty.png)
+
+<br/>
 
 # EZ loading spatial data using PostGIS shapefile loader, shp2pgsql, and ogr2ogr
 
@@ -186,7 +190,6 @@ https://wiki.postgresql.org/wiki/Foreign_data_wrappers
 https://github.com/pramsey/pgsql-ogr-fdw
 
 
-
 ```
 mschell@T2UA64237XN MINGW64 ~
 $ ogr_fdw_info -s /c/Temp -l centerline_2263_2
@@ -236,10 +239,12 @@ CREATE FOREIGN TABLE centerline_2263_2 (
 OPTIONS (layer 'centerline_2263_2');
 ```
 
+This SQL is fetching from the shapefile.  There is no table named cetnerline_2263_2. 
+
 ![ogr_fdw_action](images/ogr_fdw_action.png)
 
 
-
+<br/>
 
 # PL/pgSQL compared to PL/SQL
 
