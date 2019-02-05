@@ -20,6 +20,88 @@ As for PostGIS, blame the Canadians...
 
 <br/>
 
+# Installation on Our Government-Issued Windows PC Computers
+
+The simplest path, outlined here, is to download PostgreSQL pre-built binaries 
+from EnterpriseDB, then install the compatible PostGIS bundle from OSGeo.
+
+## Install PostgreSQL on Our Government-Issued Windows PC Computers
+
+First, check the PostgreSQL and Windows version matrix here.
+
+https://www.postgresql.org/download/windows/
+
+Then follow the link to "Download the Installer" from EnterpriseDB and install. 
+After installation take a look at the install paths.  For example:
+
+| What | Path | 
+-----------|------------| 
+| installation | C:\Program Files\PostgreSQL\10 | 
+| data directory | C:\Program Files\PostgreSQL\10\data |
+| install log | C:\Program Files\PostgreSQL\10\installation_summary.log |
+
+We likely want to add the /bin directory of the installation to our PATH variable.  
+If all goes well the psql program (see next section) should connect to our local 
+default database and postgres user.
+
+Verification using psql.exe from Mingw:
+
+```
+$ (export PGPASSWORD="bemydatabae!" && psql -h localhost -U postgres -p 5432)
+psql (10.6)
+WARNING: Console code page (437) differs from Windows code page (1252)
+         8-bit characters might not work correctly. See psql reference
+         page "Notes for Windows users" for details.
+Type "help" for help.
+
+postgres=# select version();
+                          version
+------------------------------------------------------------
+ PostgreSQL 10.6, compiled by Visual C++ build 1800, 64-bit
+(1 row)
+
+postgres=# SHOW data_directory;
+           data_directory
+-------------------------------------
+ C:/Program Files/PostgreSQL/10/data
+(1 row)
+
+
+postgres=# \q
+```
+
+## Install PostGIS on Our Government-Issued Windows PC Computers
+
+Download the PostGIS extension from the Open Source Geospatial Foundation 
+(osgeo). The windows installers are at the link below.  For example, to run the 
+installer for 64 bit Windows that's compatible with PostgreSQL 10.x, choose 
+postgis-bundle-pg10x64-setup-2.5.1-1.exe from the pg10 directory.
+
+https://download.osgeo.org/postgis/windows/
+
+Verify:
+
+```
+$ (export PGPASSWORD="bemydatabae!" && psql -h localhost -U postgres -p 5432)
+psql (10.6)
+WARNING: Console code page (437) differs from Windows code page (1252)
+         8-bit characters might not work correctly. See psql reference
+         page "Notes for Windows users" for details.
+Type "help" for help.
+
+postgres=# select * from pg_available_extensions where name = 'postgis';
+  name   | default_version | installed_version |                               comment
+---------+-----------------+-------------------+---------------------------------------------------------------------
+ postgis | 2.5.0           | 2.5.0             | PostGIS geometry, geography, and raster spatial types and functions
+(1 row)
+
+
+postgres=# \q
+```
+
+
+<br/>
+
 # psql: Pretty good, if you're in to that sort of thing
 
 "psql is a terminal-based front-end to PostgreSQL."
