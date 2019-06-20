@@ -35,7 +35,7 @@ in PostgreSQL.
 
 This would streamline the transition from legacy data sinks like Oracle
 and ESRI-focused shops to open and cloud-friendly environments.  From a marketing 
-perspective we might engage in a little big of puffery and suggest that a PostGIS 
+perspective we might engage in a little bit of puffery and suggest that a PostGIS 
 database with the OGR_FDW wrapper is a fully open source Database + [FME Server](https://www.safe.com/fme/fme-server/) bundle.
 
 For a fun use case check out the lovable galaxy brains on the Oracle 
@@ -103,7 +103,10 @@ describing the use over tiny overlaps in spatial data to leverage tax benefits.
 There are limited cases where raster processing in a database is sensible. Typically 
 this means avoiding nonsensical plans like storing gobs of binary data in 
 a database but instead doing sensible work like vectorizing raster data or performing 
-analyses that involve both raster and vector data.
+analyses that involve both raster and vector data.  
+
+For a fun example ... ugh I can't do it, raster data in a database has never been
+fun.
 
 ### Considerations
 
