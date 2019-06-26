@@ -62,8 +62,7 @@ packages, and the PostgreSQL development packages.
 
 
 
-
-## PostGIS Topology
+## PostGIS Topology 
 
 ### Motivation 
 
@@ -93,6 +92,32 @@ describing the use over tiny overlaps in spatial data to leverage tax benefits.
 
 * See https://postgis.net/docs/postgis_installation.html
 
+
+
+## pgRouting
+
+### Motivation 
+
+A PostgreSQL database with PostGIS and the pgRouting extension "extends the 
+PostGIS/PostgreSQL geospatial database to provide geospatial routing and other 
+network analysis functionality." 
+
+Projects that use models like the nascent OGC Model for Undeground Data 
+Infrastrucure ([OGC MUDDI](https://www.opengeospatial.org/projects/initiatives/ugipilot))
+may wish to use the pgRouting extension.  Also it's common for app developers to
+wander into the GIS cube farm to ask if there are alternatives to the 
+[Google Directions API](https://developers.google.com/maps/documentation/directions/start)
+when Google changes their terms of service or after some other similar prompt.
+
+### Background/Reminders 
+
+* Link: http://docs.pgrouting.org/latest/en/index.html
+
+### Considerations
+
+* Requires the PostGIS extension to use
+
+* Must be built and enabled with some non-standard requirements.  See "Building Requirements" on https://github.com/pgRouting/pgrouting
 
 
 
