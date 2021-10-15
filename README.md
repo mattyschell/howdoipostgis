@@ -32,38 +32,46 @@ First, check the PostgreSQL and Windows version matrix here.
 https://www.postgresql.org/download/windows/
 
 Then follow the link to "Download the Installer" from EnterpriseDB and install. 
-After installation take a look at the install paths.  For example:
+When prompted for the super user password you will want to remember (or securely
+vault) what you enter.
+
+Paths and info will pop up during the installation. If you are installing a new 
+version without first removing and older version the port number may be different.
 
 | What | Path | 
 -----------|------------| 
-| installation | C:\Program Files\PostgreSQL\10 | 
-| data directory | C:\Program Files\PostgreSQL\10\data |
-| install log | C:\Program Files\PostgreSQL\10\installation_summary.log |
+| Installation Directory | C:\Program Files\PostgreSQL\13 | 
+| Data Directory | C:\Program Files\PostgreSQL\13\data |
+| Database Port | 5432 |
+| Database Superuser | postgres |
 
-We likely want to add the /bin directory of the installation to our PATH variable.  
-If all goes well the psql program (see next section) should connect to our local 
-default database and postgres user.
+Add the /bin directory (ex C:\Program Files\PostgreSQL\13\bin) of the 
+installation to your PATH variable.  If all goes well the psql program
+should connect to our local default database and postgres user.
 
 Verification using psql.exe from Mingw:
 
 ```
 $ (export PGPASSWORD="bemydatabae!" && psql -h localhost -U postgres -p 5432)
-psql (10.6)
+psql (13.4)
 WARNING: Console code page (437) differs from Windows code page (1252)
          8-bit characters might not work correctly. See psql reference
          page "Notes for Windows users" for details.
 Type "help" for help.
 
+postgres=#
+
+
 postgres=# select version();
                           version
 ------------------------------------------------------------
- PostgreSQL 10.6, compiled by Visual C++ build 1800, 64-bit
+ PostgreSQL 13.4, compiled by Visual C++ build 1914, 64-bit
 (1 row)
 
 postgres=# SHOW data_directory;
            data_directory
 -------------------------------------
- C:/Program Files/PostgreSQL/10/data
+ C:/Program Files/PostgreSQL/13/data
 (1 row)
 
 
@@ -74,8 +82,8 @@ postgres=# \q
 
 Download the PostGIS extension from the Open Source Geospatial Foundation 
 (osgeo). The windows installers are at the link below.  For example, to run the 
-installer for 64 bit Windows that's compatible with PostgreSQL 10.x, choose 
-postgis-bundle-pg10x64-setup-2.5.1-1.exe from the pg10 directory.
+installer for 64 bit Windows that's compatible with PostgreSQL 13.x, choose 
+postgis-bundle-pg13x64-setup-3.1.4-1.exe from the pg13 directory.
 
 https://download.osgeo.org/postgis/windows/
 
@@ -83,16 +91,16 @@ Verify:
 
 ```
 $ (export PGPASSWORD="bemydatabae!" && psql -h localhost -U postgres -p 5432)
-psql (10.6)
+psql (13.4)
 WARNING: Console code page (437) differs from Windows code page (1252)
          8-bit characters might not work correctly. See psql reference
          page "Notes for Windows users" for details.
 Type "help" for help.
 
-postgres=# select * from pg_available_extensions where name = 'postgis';
-  name   | default_version | installed_version |                               comment
----------+-----------------+-------------------+---------------------------------------------------------------------
- postgis | 2.5.0           | 2.5.0             | PostGIS geometry, geography, and raster spatial types and functions
+postgres=#  select * from pg_available_extensions where name = 'postgis';
+  name   | default_version | installed_version |                          comment
+---------+-----------------+-------------------+------------------------------------------------------------
+ postgis | 3.1.4           |                   | PostGIS geometry and geography spatial types and functions
 (1 row)
 
 
@@ -108,17 +116,17 @@ postgres=# \q
 
 Anyone with a 'nix-like background will likely find psql more intuitive than 
 Oracle's SQLPlus.  Also, anyone who's ever attempted to control the behavior
-of SQLPlus via some "SPOOL", "SET DEFINE OFF", etc voodoo at the top of an 
+of SQLPlus via some "SPOOL", "SET DEFINE OFF", etc guesses at the top of an 
 SQLPlus script should find psql refreshing.
 
 A simple psql connection to a database as user "gisuser" on database 
 "gisdatabase" hosted locally.  Inputs can be externalized via 
-PGXXXXX environmentals.
+PGXXXXX environmentals which is a good practice.
 
 ```
 $ export PGPASSWORD=PostgisIsMyDataBae!
 $ psql -h localhost -U gisuser -d gisdatabase
-psql (10.6)
+psql (13.4)
 WARNING: Console code page (437) differs from Windows code page (1252)
          8-bit characters might not work correctly. See psql reference
          page "Notes for Windows users" for details.
@@ -328,11 +336,12 @@ This SQL is fetching from the shapefile.  There is no table named cetnerline_226
 
 <br/>
 
-# PL/pgSQL compared to PL/SQL
+# PL/pgSQL 
 
-TBD.  Looks pretty familiar.  $$ are "dollar quotes" to avoid escaping single quotes
-within the text.  We must specify the language because PostgreSQL also supports
-pl/perl, pl/python, and some others not part of the core distribution.
+PL/pgSQL is the most commonly used procedural programming language supported by PostgreSQL.
+It will look familiar to programmers of other databases.  $$ are "dollar quotes" to avoid 
+escaping single quotes within the text.  We must specify the language because PostgreSQL
+also supports pl/perl, pl/python, and some others not part of the core distribution.
 
 ```
 CREATE OR REPLACE FUNCTION dummy()
