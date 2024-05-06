@@ -36,77 +36,65 @@ When prompted for the super user password you will want to remember (or securely
 vault) what you enter.
 
 Paths and info will pop up during the installation. If you are installing a new 
-version without first removing and older version the port number may be different.
+version without first removing and older version the port number may be different from the PostgreSQL default, 5432.
 
 | What | Path | 
 -----------|------------| 
-| Installation Directory | C:\Program Files\PostgreSQL\13 | 
-| Data Directory | C:\Program Files\PostgreSQL\13\data |
+| Installation Directory | C:\Program Files\PostgreSQL\16 | 
+| Data Directory | C:\Program Files\PostgreSQL\16\data |
 | Database Port | 5432 |
 | Database Superuser | postgres |
 
-Add the /bin directory (ex C:\Program Files\PostgreSQL\13\bin) of the 
+Add the /bin directory (ex C:\Program Files\PostgreSQL\16\bin) of the 
 installation to your PATH variable.  If all goes well the psql program
 should connect to our local default database and postgres user.
 
 Verification using psql.exe from Mingw:
 
 ```
-$ (export PGPASSWORD="bemydatabae!" && psql -h localhost -U postgres -p 5432)
-psql (13.4)
+$ export PGSSLMODE=allow
+$ export PGPASSWORD=bemydatabae!
+$ export PGHOST=localhost
+$ export PGPORT=5432
+$ psql -U postgres
+psql (16.2)
 WARNING: Console code page (437) differs from Windows code page (1252)
          8-bit characters might not work correctly. See psql reference
          page "Notes for Windows users" for details.
 Type "help" for help.
 
-postgres=#
-
-
 postgres=# select version();
                           version
 ------------------------------------------------------------
- PostgreSQL 13.4, compiled by Visual C++ build 1914, 64-bit
+ PostgreSQL 16.2, compiled by Visual C++ build 1937, 64-bit
 (1 row)
 
 postgres=# SHOW data_directory;
            data_directory
 -------------------------------------
- C:/Program Files/PostgreSQL/13/data
+ C:/Program Files/PostgreSQL/16/data
 (1 row)
-
 
 postgres=# \q
 ```
 
 ## Install PostGIS on Our Government-Issued Windows PC Computers
 
-Download the PostGIS extension from the Open Source Geospatial Foundation 
-(osgeo). The windows installers are at the link below.  For example, to run the 
-installer for 64 bit Windows that's compatible with PostgreSQL 13.x, choose 
-postgis-bundle-pg13x64-setup-3.1.4-1.exe from the pg13 directory.
+Download the PostGIS extension matching your PostgreSQL version from the Open Source Geospatial Foundation 
+(osgeo) [download page](https://download.osgeo.org/postgis/windows/).  For example, to select the 
+installer for 64 bit Windows that is compatible with PostgreSQL 16 choose the pg16 directory and download postgis-bundle-pg16x64-setup-3.4.1-1.exe.
 
-https://download.osgeo.org/postgis/windows/
-
-Verify:
+After running the installer verify the installation.
 
 ```
-$ (export PGPASSWORD="bemydatabae!" && psql -h localhost -U postgres -p 5432)
-psql (13.4)
-WARNING: Console code page (437) differs from Windows code page (1252)
-         8-bit characters might not work correctly. See psql reference
-         page "Notes for Windows users" for details.
-Type "help" for help.
-
-postgres=#  select * from pg_available_extensions where name = 'postgis';
+postgres=# select * from pg_available_extensions where name = 'postgis';
   name   | default_version | installed_version |                          comment
 ---------+-----------------+-------------------+------------------------------------------------------------
- postgis | 3.1.4           |                   | PostGIS geometry and geography spatial types and functions
+ postgis | 3.4.1           |                   | PostGIS geometry and geography spatial types and functions
 (1 row)
-
 
 postgres=# \q
 ```
-
 
 <br/>
 
