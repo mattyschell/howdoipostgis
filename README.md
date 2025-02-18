@@ -14,7 +14,7 @@ Also commonly used
 Postgres | post grez | my eyes and ears |
 
 
-As for PostGIS, blame the Canadians...
+For PostGIS blame Canada.
 
 ![drake](images/pronunciation.png)
 
@@ -23,7 +23,7 @@ As for PostGIS, blame the Canadians...
 # Installation on Our Government-Issued Windows PC Computers
 
 The simplest path, outlined here, is to download PostgreSQL pre-built binaries 
-from EnterpriseDB, then install the compatible PostGIS bundle from OSGeo.
+from EnterpriseDB then install the compatible PostGIS bundle from OSGeo.
 
 ## Install PostgreSQL on Our Government-Issued Windows PC Computers
 
@@ -36,7 +36,7 @@ When prompted for the super user password you will want to remember (or securely
 vault) what you enter.
 
 Paths and info will pop up during the installation. If you are installing a new 
-version without first removing and older version the port number may be different from the PostgreSQL default, 5432.
+version without first removing and older version the port number may be different from the PostgreSQL default which is 5432.
 
 | What | Path | 
 -----------|------------| 
@@ -45,11 +45,9 @@ version without first removing and older version the port number may be differen
 | Database Port | 5432 |
 | Database Superuser | postgres |
 
-Add the /bin directory (ex C:\Program Files\PostgreSQL\16\bin) of the 
-installation to your PATH variable.  If all goes well the psql program
-should connect to our local default database and postgres user.
+Add the \bin directory (ex C:\Program Files\PostgreSQL\16\bin) of the installation to your PATH environment variable. Go to Windows - Settings - "Edit Environment Variables For Your Account."
 
-Verification using psql.exe from Mingw:
+If all goes well the psql program should connect to our local default database and postgres user.  Here is verification using psql.exe from a [Git Bash](https://git-scm.com/downloads) shell. A windows command prompt should work too.
 
 ```
 $ export PGSSLMODE=allow
@@ -98,18 +96,11 @@ postgres=# \q
 
 <br/>
 
-# psql: Pretty good, if you're in to that sort of thing
+# psql: Pretty good, if you're into that sort of thing
 
 "psql is a terminal-based front-end to PostgreSQL."
 
-Anyone with a 'nix-like background will likely find psql more intuitive than 
-Oracle's SQLPlus.  Also, anyone who's ever attempted to control the behavior
-of SQLPlus via some "SPOOL", "SET DEFINE OFF", etc guesses at the top of an 
-SQLPlus script should find psql refreshing.
-
-A simple psql connection to a database as user "gisuser" on database 
-"gisdatabase" hosted locally.  Inputs can be externalized via 
-PGXXXXX environmentals which is a good practice.
+Anyone with a unix-like background will likely find psql intuitive. Here's a simple psql connection to a database as user "gisuser" on database "gisdatabase" hosted locally.  Inputs can be externalized via PGXXXXX environmentals which is a good practice.
 
 ```
 $ export PGPASSWORD=PostgisIsMyDataBae!
@@ -130,9 +121,7 @@ A call to a script in a file using -f
 $ psql -h localhost -U gisuser -d gisdatabase -f gisscript.sql
 ```
 
-Yields a consistent, nicely formatted output that any shell or scripting 
-language can read. Successes print the action.  Errors bounce back as 
-as psql:script:linenumber: info 
+Yields a consistent, nicely formatted output that any shell or scripting language can read. Successes print the action.  Errors bounce back as as psql:script:linenumber: info 
 
 ```
 BEGIN
@@ -187,14 +176,12 @@ a client connection may only access one database for a given connection.
 We create schemas on a database as logical structures.  Schemas aren't necessarily 
 assigned to users. By default there's a public schema on each database.
 
-Here's a wild and crazy mix of users, databases, and grants on the Aurora host 
-we had access to during the Pivotal proof of concept. Notice that all privileges 
-for the *basemapread* user have been revoked except for access to the *basemap* 
+Here's a wild and crazy mix of users, databases, and grants on a host where users were performing some proof of concept-ing. Notice that all privileges for the *basemapread* user have been revoked except for access to the *basemap* 
 database.
 
 ![wild](images/wildandcrazsydbs.png)
 
-Moving Oracle stuff over without much private sector thinking seems to pop out
+If you are starting from an Oracle environment and don't do much private sector thinking you will likely pop off 
 one PostgreSQL database with one default public schema for each Oracle schema.  
 
 How would you, yes you, organize this?  
@@ -215,15 +202,12 @@ Comes with the PostGIS bundle install.  It's a good place to start.
 
 *shp2pgsql*
 
-The PostGIS Shapefile Loader GUI described above is a wrapper to shp2pgsql. 
-From the shp2pgsql command line we have many nice flags and options.
+The PostGIS Shapefile Loader GUI described above is a wrapper to shp2pgsql. From the shp2pgsql command line we have many nice flags and options.
 
 https://postgis.net/docs/using_postgis_dbmanagement.html#shp2pgsql_usage
 
 I am partial to converting shapefiles into SQL and plunking the SQL into version 
-control. 
-
-For example, given a shapefile of tax blocks, convert the entire thing to PostGIS
+control. For example, given a shapefile of tax blocks, convert the entire thing to PostGIS
 compatible SQL. 
 
 -s: spatial reference identifier
@@ -246,7 +230,7 @@ INSERT INTO "tax_block_polygon" ("boro","block","eop_overlap_flag","jagged_st_fl
 
 *ogr2ogr*
 
-Works great if you're into this sort of thing, or must convert directly 
+Works great if you're into this sort of thing.  Also this may be your best choice if you must convert directly 
 to/from formats that aren't shapefiles.
 
 For example, load a geojson file to a new table named *zone_geo_test*.
@@ -259,9 +243,7 @@ $ ogr2ogr -f "PostgreSQL" PG:"dbname='gisdatabase' host='localhost' port='5432' 
 
 ![ogr_fdw](images/ogr_fdw.png)
 
-Given a PostgreSQL database with access to an ogr-compatible file or database,
-enable the ogr-fdw extension and treat the file or non-PostgreSQL database
-like a PostgreSQL table.
+Given a PostgreSQL database with access to an ogr-compatible file or database, enable the ogr-fdw extension and treat the file or non-PostgreSQL database like a PostgreSQL table.
 
 https://wiki.postgresql.org/wiki/Foreign_data_wrappers
 
@@ -317,7 +299,7 @@ CREATE FOREIGN TABLE centerline_2263_2 (
 OPTIONS (layer 'centerline_2263_2');
 ```
 
-This SQL is fetching from the shapefile.  There is no table named cetnerline_2263_2. 
+This SQL is fetching from the shapefile.  There is no table named centerline_2263_2. 
 
 ![ogr_fdw_action](images/ogr_fdw_action.png)
 
@@ -326,10 +308,7 @@ This SQL is fetching from the shapefile.  There is no table named cetnerline_226
 
 # PL/pgSQL 
 
-PL/pgSQL is the most commonly used procedural programming language supported by PostgreSQL.
-It will look familiar to programmers of other databases.  $$ are "dollar quotes" to avoid 
-escaping single quotes within the text.  We must specify the language because PostgreSQL
-also supports pl/perl, pl/python, and some others not part of the core distribution.
+PL/pgSQL is the most commonly used procedural programming language supported by PostgreSQL. It will look familiar to programmers of other databases.  $$ are "dollar quotes" to avoid escaping single quotes within the text.  We must specify the language because PostgreSQL also supports pl/perl, pl/python, and some others not part of the core distribution.
 
 ```
 CREATE OR REPLACE FUNCTION dummy()
